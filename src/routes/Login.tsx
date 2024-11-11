@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Navigate } from "react-router-dom";
 import { useAuth } from '../auth/AuthProvider';
 import DefaultLayout from './DefaultLayout';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -39,9 +41,24 @@ const Login = () => {
     }
   }
 
-  if (isAuthenticated) {
-    return userType === 'writer' ? <Navigate to="/writer" /> : <Navigate to="/reader" />;
-  }
+  const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorResponse, setErrorResponse] = useState<string | null>(null);
+    
+    const { isAuthenticated, userType, setIsAuthenticated, setUserType, setToken } = useAuth();
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      if (isAuthenticated) {
+        if (userType === 'writer') {
+          navigate('/writer');
+        } else {
+          navigate('/reader');
+        }
+      }
+    }, [isAuthenticated, userType, navigate]); // Dependencias aseguran que el efecto solo corra cuando cambian
+  };
 
   return (
     <DefaultLayout>
