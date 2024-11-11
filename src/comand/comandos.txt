@@ -1,0 +1,7 @@
+npx tailwindcss init -p  este inicializara el tailwindcss
+Ademasd creara un par de archivos de configuracion para el proyecto
+
+
+
+- `npx tailwindcss build` este comando compilara el css de tailwindcss
+npm run dev inicializara el proyecto
