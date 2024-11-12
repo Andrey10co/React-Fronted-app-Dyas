@@ -17,7 +17,7 @@ const Login = () => {
     setErrorResponse(null);  // Reiniciar el error antes de hacer el intento de login
     
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch("http://localhost:8080/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
