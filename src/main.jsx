@@ -12,19 +12,17 @@ import ReaderView from './routes/ReaderView.jsx'
 import AuthProvider from './auth/AuthProvider.tsx'
 
 const router = createBrowserRouter([
-  {path: '/login', element: <Login/>},
-  {path: '/singup', element: <SingUp />},
-  {path: '/', element: <ProtectedRoute />,
-     children:[
-      {
-        path: '/writer',
-        element: <WriterView />
-      },
-      {
-        path:'/reader',
-        element: <ReaderView />
-      }]}
-])
+  { path: '/login', element: <Login /> },
+  { path: '/singup', element: <SingUp /> },
+  {
+    path: '/',
+    element: <ProtectedRoute />,
+    children: [
+      { path: 'writer', element: <WriterView /> },
+      { path: 'reader', element: <ReaderView /> }
+    ]
+  }
+]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
