@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Navigate } from "react-router-dom";
 import { useAuth } from '../auth/AuthProvider';
 import DefaultLayout from './DefaultLayout';
 import { useEffect } from 'react';
@@ -9,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorResponse, setErrorResponse] = useState<string | null>(null);
-
+  const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated, userType, setUserType, setToken } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -26,7 +25,7 @@ const Login = () => {
       if (response.ok) {
         const json = await response.json();
         
-        if (json.body.accessToken && json.body.refreshToken) {
+        if (json.body.accessToken ) {
           setToken(json.body.accessToken);
           setUserType(json.body.userType);
           setIsAuthenticated(true);
@@ -41,15 +40,7 @@ const Login = () => {
     }
   }
 
-  const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [errorResponse, setErrorResponse] = useState<string | null>(null);
-    
-    const { isAuthenticated, userType, setIsAuthenticated, setUserType, setToken } = useAuth();
-    const navigate = useNavigate();
-  
-    useEffect(() => {
+  useEffect(() => {
       if (isAuthenticated) {
         if (userType === 'writer') {
           navigate('/writer');
@@ -57,9 +48,7 @@ const Login = () => {
           navigate('/reader');
         }
       }
-    }, [isAuthenticated, userType, navigate]); // Dependencias aseguran que el efecto solo corra cuando cambian
-  };
-
+    }, [isAuthenticated, userType, navigate]);
   return (
     <DefaultLayout>
       <div className="flex justify-center items-center h-screen">
