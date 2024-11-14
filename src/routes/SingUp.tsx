@@ -41,7 +41,7 @@ function SignUp() {
     }
   }
 
-  // Redirige según el tipo de usuario
+  // Redirige según el tipo de usuario j
   if (auth.isAuthenticated) {
     return <Navigate to={auth.userType === 'writer' ? "/writer" : "/reader"} />;
   }
