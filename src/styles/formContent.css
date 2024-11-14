@@ -1,0 +1,94 @@
+/* Contenedor del formulario */
+form {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Estilo de los inputs y selects */
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333333;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+  }
+  
+  /* Cambios de color y sombra en foco */
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #1e90ff;
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+    background-color: #ffffff;
+  }
+  
+  /* Placeholder */
+  input::placeholder,
+  textarea::placeholder {
+    color: #999999;
+  }
+  
+  /* Estilo del botón */
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1e90ff;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #007acc;
+    box-shadow: 0 4px 10px rgba(0, 122, 204, 0.2);
+  }
+  
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 122, 204, 0.5);
+  }
+  
+  /* Estilo para el título de campo */
+  input,
+  select,
+  textarea {
+    margin-top: 8px;
+  }
+  
+  form input[type="date"] {
+    color: #333333;
+  }
+  
+  /* Etiquetas */
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #1e90ff;
+  }
+  
+  /* Espaciado y estilo general */
+  form h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #1e90ff;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+  }
+  

@@ -1,23 +1,35 @@
 import { createContext, useState, useEffect } from 'react';
-import { useAuth } from '../auth/AuthProvider'; // Asegúrate de tener acceso al AuthContext
+import { useAuth } from '../auth/AuthProvider'; 
 
 export const AppContext = createContext();
 
 export function AppContextProvider(props) {
   const [books, setBooks] = useState([]);
   const [genres, setGenres] = useState([]); // Lista de géneros disponibles
-  const { userId, userType } = useAuth(); // Obtener userId y userType desde el AuthContext
+  const { userId, userType } = useAuth(); 
 
-  // Función para obtener libros agrupados por género desde el backend
-  async function fetchBooksByGenres() {
+  // Función para obtener lista de libros por género desde el backend
+  async function fetchGenres() {
     try {
       const response = await fetch("http://localhost:8080/api/books/bygenres");
       if (!response.ok) throw new Error("Error al obtener los géneros");
       
-      const data = await response.json();
-      setGenres(data); // Suponiendo que el backend devuelve un objeto con géneros y libros
+      const genreList = await response.json();
+      setGenres(genreList); 
     } catch (error) {
       console.error("Error al obtener los géneros y libros:", error);
+    }
+  }
+
+  async function fetchBooks() {
+    try {
+      const response = await fetch("http://localhost:8080/api/books/allGenres");
+      if (!response.ok) throw new Error("Error al obtener los libros");
+      
+      const booksList = await response.json();
+      setBooks(booksList);
+    } catch (error) {
+      console.error("Error al obtener los libros:", error);
     }
   }
 
@@ -40,9 +52,24 @@ export function AppContextProvider(props) {
     }
   }
 
+  async function deleteBook(bookId) {
+    try {
+      const response = await fetch(`http://localhost:8080/api/books/${bookId}`, {
+        method: "DELETE",
+      });
+      
+      if (!response.ok) throw new Error("Error al eliminar el libro");
+      
+      setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+    } catch (error) {
+      console.error("Error al eliminar el libro:", error);
+    }
+  }
+
   // Cargar libros y géneros al iniciar el contexto
   useEffect(() => {
-    fetchBooksByGenres();
+    fetchGenres();
+    fetchBooks();
   }, []);
 
   // Filtrar los libros por el escritor (si es un escritor)
@@ -52,8 +79,10 @@ export function AppContextProvider(props) {
     <AppContext.Provider
       value={{
         books: userType === 'writer' ? booksByWriter : books, // Si es escritor, solo mostrar sus libros
-        genres, // Para mostrar los géneros y hacer filtrado en el frontend
+        genres, // Para mostrar los géneros y
         createBook,
+        deleteBook,
+        fetchBooks,
       }}
     >
       {props.children}

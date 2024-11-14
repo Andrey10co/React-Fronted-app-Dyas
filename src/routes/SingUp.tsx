@@ -34,7 +34,7 @@ function SignUp() {
         
         auth.setToken(json.accessToken);
         auth.setIsAuthenticated(true);
-        // auth.setUserType(userType as 'writer' | 'reader');      eso cambiaba 
+        auth.setUserType(userType); 
         
       } else {
         const json = (await response.json()) as AuthResponseError;
