@@ -16,21 +16,26 @@ function SignUp() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/register", {
+      const response = await fetch("http://localhost:8080/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, userType }),
+        body: JSON.stringify({
+          "name": name,
+          "email": email,
+          "password": password,
+          "userType": userType
+        }),
       });
       
       if (response.ok) {
         const json = (await response.json()) as AuthResponse;
         console.log(json);
 
-        if (json.body.accessToken && json.body.refreshToken) {
-          auth.setToken(json.body.accessToken);
-          auth.setIsAuthenticated(true);
-          auth.setUserType(userType as 'writer' | 'reader');
-        }
+        
+        auth.setToken(json.accessToken);
+        auth.setIsAuthenticated(true);
+        // auth.setUserType(userType as 'writer' | 'reader');      eso cambiaba 
+        
       } else {
         const json = (await response.json()) as AuthResponseError;
         setErrorResponse(json.body.error);
