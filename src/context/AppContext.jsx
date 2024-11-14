@@ -11,7 +11,7 @@ export function AppContextProvider(props) {
   // Función para obtener lista de libros por género desde el backend
   async function fetchGenres() {
     try {
-      const response = await fetch("http://localhost:8080/api/books/bygenres");
+      const response = await fetch("http://localhost:8080/api/books/allGenres");
       if (!response.ok) throw new Error("Error al obtener los géneros");
       
       const genreList = await response.json();

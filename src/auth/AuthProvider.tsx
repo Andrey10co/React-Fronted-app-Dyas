@@ -26,7 +26,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     async function fetchUserId() {
       if (token) {
         try {
-          const response = await fetch('http://localhost:8080/api/user/profile', {
+          const response = await fetch('http://localhost:8080/api/users/profile', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
