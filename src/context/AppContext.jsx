@@ -23,11 +23,21 @@ export function AppContextProvider(props) {
 
   async function fetchBooks() {
     try {
-      const response = await fetch("http://localhost:8080/api/books/allBooks");
-      if (!response.ok) throw new Error("Error al obtener los libros");
+      console.log(userType)
+      if(userType == "WRITER"){
+        console.log(userId)
+        const response = await fetch("http://localhost:8080/api/books/BooksByWriter?writer="+userId);
+        if (!response.ok) throw new Error("Error al obtener los libros");
+        const booksList = await response.json();
+        setBooks(booksList);
+      }
+      else{
+        const response = await fetch("http://localhost:8080/api/books/allBooks");
+        if (!response.ok) throw new Error("Error al obtener los libros");
+        const booksList = await response.json();
+        setBooks(booksList);
+      }
       
-      const booksList = await response.json();
-      setBooks(booksList);
     } catch (error) {
       console.error("Error al obtener los libros:", error);
     }
@@ -71,16 +81,12 @@ export function AppContextProvider(props) {
     fetchGenres();
     fetchBooks();
   }, []);
-
-  // Filtrar los libros por el escritor (si es un escritor)
-  
-  const booksByWriter = books.filter((book) => book.writer.id === userId);
-  
+    
 
   return (
     <AppContext.Provider
       value={{
-        books: userType === 'WRITER' ? booksByWriter : books, // Si es escritor, solo mostrar sus libros
+        books:  books,
         genres, // Para mostrar los géneros y
         createBook,
         deleteBook,

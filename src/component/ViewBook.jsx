@@ -7,20 +7,20 @@ function ViewBooks() {
   const { books, booksByWriter, genres } = useContext(AppContext);
   const { userType } = useAuth();
 
-  console.log(userType)
-  console.log(booksByWriter)
+  
 
   // Si el usuario es escritor, mostramos sus libros. Si es lector, mostramos el catálogo por género
-  if (userType === 'WRITER') {
+  if (userType == 'WRITER') {
+    console.log(books);
     return (
       <div className="catalog">
         <h2>Your Books</h2>
         <div className="grid grid-cols-4 gap-4">
           
           {
-            booksByWriter.length > 0 ? (
-              booksByWriter.map((book) => (
-                <BookCardView key={book.id} book={book} />
+            books.length > 0 ? (
+              books.map((book) => (
+                <BookCardView key={book.isbn} book={book} />
               ))
             ) : (
               <div>You haven't created any books yet.</div>
@@ -43,7 +43,7 @@ function ViewBooks() {
               books.filter((book) => book.genre === genre).length > 0 ? (
                 books
                   .filter((book) => book.genre === genre)
-                  .map((book) => <BookCardView key={book.id} book={book} />)
+                  .map((book) => <BookCardView key={book.isbn} book={book} />)
               ) : (
                 <div>No books available in this genre.</div>
               )

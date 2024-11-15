@@ -34,6 +34,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           if (!response.ok) throw new Error('Failed to fetch user ID');
           const data = await response.json();
           setUserId(data.userId);
+          console.log("El id del usuario es:"+userId)
           setUserType(data.userType);
           setIsAuthenticated(true);
         } catch (error) {

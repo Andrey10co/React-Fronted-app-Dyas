@@ -9,7 +9,7 @@ function WriterView() {
   const { userType } = useAuth();
   (AppContext);
 
-  if (userType != 'writer') {
+  if (userType != 'WRITER') {
     return <div>Access denied. You must be a writer to view this page.</div>;
   }
 
