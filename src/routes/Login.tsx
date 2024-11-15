@@ -45,7 +45,7 @@ const Login = () => {
 
   useEffect(() => {
       if (isAuthenticated) {
-        if (userType === 'writer') {
+        if (userType === 'WRITER') {
           navigate('/writer');
         } else {
           navigate('/reader');

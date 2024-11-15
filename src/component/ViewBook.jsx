@@ -11,7 +11,7 @@ function ViewBooks() {
   console.log(booksByWriter)
 
   // Si el usuario es escritor, mostramos sus libros. Si es lector, mostramos el catálogo por género
-  if (userType === 'writer') {
+  if (userType === 'WRITER') {
     return (
       <div className="catalog">
         <h2>Your Books</h2>
@@ -20,7 +20,7 @@ function ViewBooks() {
           {
             booksByWriter.length > 0 ? (
               booksByWriter.map((book) => (
-                <BookCardView key={book.isbn} book={book} />
+                <BookCardView key={book.id} book={book} />
               ))
             ) : (
               <div>You haven't created any books yet.</div>

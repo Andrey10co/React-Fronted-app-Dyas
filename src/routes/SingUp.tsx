@@ -48,7 +48,7 @@ function SignUp() {
 
   // Redirige según el tipo de usuario j
   if (auth.isAuthenticated) {
-    return <Navigate to={auth.userType === 'writer' ? "/writer" : "/reader"} />;
+    return <Navigate to={auth.userType === 'WRITER' ? "/writer" : "/reader"} />;
   }
 
   return (

@@ -74,13 +74,13 @@ export function AppContextProvider(props) {
 
   // Filtrar los libros por el escritor (si es un escritor)
   
-  const booksByWriter = books.filter((book) => book.writer === userId);
-  console.log(booksByWriter)
+  const booksByWriter = books.filter((book) => book.writer.id === userId);
+  
 
   return (
     <AppContext.Provider
       value={{
-        books: userType === 'writer' ? booksByWriter : books, // Si es escritor, solo mostrar sus libros
+        books: userType === 'WRITER' ? booksByWriter : books, // Si es escritor, solo mostrar sus libros
         genres, // Para mostrar los géneros y
         createBook,
         deleteBook,
