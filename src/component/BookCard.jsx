@@ -17,11 +17,11 @@ function BookCardView({book}) {
   return (
     <div className='bg-slate-500 text-center text-amber-50 p-4 rounded-md'>
         <h3>Title: {book.title}</h3>
-        <h3>Isbn: {book.isbn}</h3>
         <h3>Author: {book.writer.name}</h3>
-        <h3>Gender: {book.genre}</h3>
+        <h3>Genre: {book.genre}</h3>
         <h3>Content: {book.content}</h3>
         <h3>Type book: {book.type}</h3>
+        <h3>Precio: {book.precio}</h3>
         
         <button onClick={()=> deleteBook(book.id)}>Eliminar libro</button>
 

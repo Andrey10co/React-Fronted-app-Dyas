@@ -4,12 +4,12 @@ import { useAuth } from '../auth/AuthProvider';
 import "../styles/formContent.css"
 
 function BookForm() {
-    const [isbn, setIsbn] = useState('')
     const [title, setTitle ] = useState("") 
-    const [type, setType] = useState('ebook')
-    const [gender, setGender] = useState("")
+    const [type, setType] = useState("EBook")
+    const [genre, setGenre] = useState("")
     const  [publication, setPublication] = useState("")
     const [content, setContent] = useState("")
+    const [price, setPrice] = useState("")
 
 
     const {createBook} = useContext(AppContext)
@@ -17,11 +17,10 @@ function BookForm() {
 
     const  handleSubmit = (e) => {
         e.preventDefault();
-        createBook({ isbn, title, type, gender, publication, content, writer: userId })
-        setIsbn('');
+        createBook({title, type, genre, publication, content, writer: userId, price })
         setTitle('');
-        setType('ebook');
-        setGender('');
+        setType('');
+        setGenre('');
         setPublication('');
         setContent('');
     }
@@ -29,12 +28,6 @@ function BookForm() {
   return (
     <form onSubmit={handleSubmit}>
     <h2>Agregar Nuevo Libro</h2>
-    <label>ISBN</label>
-    <input
-      placeholder="Escribe el ISBN"
-      onChange={(e) => setIsbn(e.target.value)}
-      value={isbn}
-    />
     
     <label>Título</label>
     <input
@@ -45,12 +38,12 @@ function BookForm() {
 
     <label>Tipo</label>
     <select onChange={(e) => setType(e.target.value)} value={type}>
-      <option value="ebook">eBook</option>
-      <option value="printed">Printed</option>
+      <option value="Ebook">EBook</option>
+      <option value="Audio">Audio</option>
     </select>
 
     <label>Género</label>
-    <select onChange={(e) => setGender(e.target.value)} value={gender}>
+    <select onChange={(e) => setGenre(e.target.value)} value={genre}>
       <option value="" disabled>Selecciona un género</option>
       <option value="Ficción">Ficción</option>
       <option value="No Ficción">No Ficción</option>
@@ -86,7 +79,12 @@ function BookForm() {
       onChange={(e) => setContent(e.target.value)}
       value={content}
     />
-    
+    <label>Precio</label>
+    <textarea
+      placeholder="$ valor del libro"
+      onChange={(e) => setPrice(e.target.value)}
+      value={price}
+    />
     <button>Guardar</button>
   </form>
   )

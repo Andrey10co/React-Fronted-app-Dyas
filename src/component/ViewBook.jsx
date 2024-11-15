@@ -20,7 +20,7 @@ function ViewBooks() {
           {
             books.length > 0 ? (
               books.map((book) => (
-                <BookCardView key={book.isbn} book={book} />
+                <BookCardView key={book.bookId} book={book} />
               ))
             ) : (
               <div>You haven't created any books yet.</div>
@@ -43,7 +43,7 @@ function ViewBooks() {
               books.filter((book) => book.genre === genre).length > 0 ? (
                 books
                   .filter((book) => book.genre === genre)
-                  .map((book) => <BookCardView key={book.isbn} book={book} />)
+                  .map((book) => <BookCardView key={book.bookId} book={book} />)
               ) : (
                 <div>No books available in this genre.</div>
               )
