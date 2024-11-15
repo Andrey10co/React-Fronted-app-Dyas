@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../context/appContext';
+import { AppContext } from '../context/AppContext';
 import { useAuth } from '../auth/AuthProvider';
 import BookForm from '../component/BookForm';
 import ViewBooks from '../component/ViewBook';
@@ -9,7 +9,7 @@ function WriterView() {
   const { userType } = useAuth();
   (AppContext);
 
-  if (userType !== 'writer') {
+  if (userType != 'writer') {
     return <div>Access denied. You must be a writer to view this page.</div>;
   }
 

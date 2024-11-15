@@ -33,7 +33,8 @@ function AuthProvider({ children }: AuthProviderProps) {
           });
           if (!response.ok) throw new Error('Failed to fetch user ID');
           const data = await response.json();
-          setUserId(data.userId); // Asumimos que el backend devuelve un campo `userId`
+          setUserId(data.userId);
+          setUserType(data.userType);
           setIsAuthenticated(true);
         } catch (error) {
           console.error('Error fetching user ID:', error);
