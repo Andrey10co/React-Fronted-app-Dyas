@@ -6,9 +6,10 @@ export const AppContext = createContext();
 export function AppContextProvider(props) {
   const [books, setBooks] = useState([]);
   const [genres, setGenres] = useState([]); // Lista de géneros disponibles
-  const { userId, userType } = useAuth(); 
+  const { userId, userType, token } = useAuth(); 
 
-  // Función para obtener lista de libros por género desde el backend
+  
+  
   async function fetchGenres() {
     try {
       const response = await fetch("http://localhost:8080/api/books/allGenres");
@@ -25,8 +26,14 @@ export function AppContextProvider(props) {
     try {
       console.log(userType)
       if(userType == "WRITER"){
-        console.log(userId)
-        const response = await fetch("http://localhost:8080/api/books/BooksByWriter?writer="+userId);
+
+        console.log("El id es:"+ userId+" Y el tipo es: "+ userType)
+        const response = await fetch("http://localhost:8080/api/books/BooksByWriter" ,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         if (!response.ok) throw new Error("Error al obtener los libros");
         const booksList = await response.json();
         setBooks(booksList);
