@@ -23,7 +23,7 @@ export function AppContextProvider(props) {
 
   async function fetchBooks() {
     try {
-      const response = await fetch("http://localhost:8080/api/books/allGenres");
+      const response = await fetch("http://localhost:8080/api/books/allBooks");
       if (!response.ok) throw new Error("Error al obtener los libros");
       
       const booksList = await response.json();
