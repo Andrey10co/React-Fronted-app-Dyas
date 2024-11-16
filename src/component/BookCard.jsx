@@ -27,7 +27,7 @@ function BookCardView({book}) {
         {userType === "WRITER" ? (
           <div>
             {/* Botones para escritores */}
-            <button onClick={() => deleteBook(book.id)}>Eliminar libro</button>
+            <button onClick={() => deleteBook(book.bookId)}>Eliminar libro</button>
             <button onClick={handleViewContent}>Ver contenido</button>
 
             {/* Modal para ver el contenido */}

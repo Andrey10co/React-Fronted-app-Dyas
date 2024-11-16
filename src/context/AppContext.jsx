@@ -104,13 +104,13 @@ export function AppContextProvider(props) {
 
   async function deleteBook(bookId) {
     try {
-      const response = await fetch(`http://localhost:8080/api/books/${bookId}`, {
+      const response = await fetch(`http://localhost:8080/api/books/DeleteBook?id=${bookId}`, {
         method: "DELETE",
       });
       
       if (!response.ok) throw new Error("Error al eliminar el libro");
       
-      setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+      setBooks((prevBooks) => prevBooks.filter((book) => book.bookId !== bookId));
     } catch (error) {
       console.error("Error al eliminar el libro:", error);
     }
