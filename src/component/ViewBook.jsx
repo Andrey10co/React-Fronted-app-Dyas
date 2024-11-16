@@ -11,7 +11,6 @@ function ViewBooks() {
 
   // Si el usuario es escritor, mostramos sus libros. Si es lector, mostramos el catálogo por género
   if (userType == 'WRITER') {
-    console.log(books);
     return (
       <div className="catalog">
         <h2>Your Books</h2>

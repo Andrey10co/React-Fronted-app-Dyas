@@ -8,7 +8,7 @@ function BookForm() {
     const [type, setType] = useState("EBook")
     const [genre, setGenre] = useState("")
     const  [publication, setPublication] = useState("")
-    const [content, setContent] = useState("")
+    const [content, setContent] = useState(null)
     const [price, setPrice] = useState("")
 
 
@@ -16,14 +16,28 @@ function BookForm() {
     const { userId } = useAuth();
 
     const  handleSubmit = (e) => {
+
         e.preventDefault();
         createBook({title, type, genre, publication, content, writer: userId, price })
         setTitle('');
         setType('');
         setGenre('');
         setPublication('');
-        setContent('');
+        setContent(null);
+      
+    };
+
+    const hadleFileChange= (e) => {
+      const file = e.target.files[0];
+      if(file && file.type === "application/pdf"){
+        setContent(file);
+      } else {
+        alert("Por favor, selecciona un archivo pdf");
+        e.target.value = null
+      }
     }
+
+    
 
   return (
     <form onSubmit={handleSubmit}>
@@ -73,18 +87,26 @@ function BookForm() {
       value={publication}
     />
 
-    <label>Descripción</label>
-    <textarea
-      placeholder="Escribe la descripción"
-      onChange={(e) => setContent(e.target.value)}
-      value={content}
+    <label>Contenido</label>
+    <input
+      type="file"
+      accept=".pdf"
+      onChange={hadleFileChange}
     />
+
     <label>Precio</label>
-    <textarea
-      placeholder="$ valor del libro"
-      onChange={(e) => setPrice(e.target.value)}
-      value={price}
+    <input
+        type="number"
+        step="0.01"
+        min="0"
+        placeholder="$ Ingrese el valor del Libro"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
     />
+
+    
+    
+      
     <button>Guardar</button>
   </form>
   )

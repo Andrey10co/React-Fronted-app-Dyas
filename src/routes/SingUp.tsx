@@ -29,7 +29,6 @@ function SignUp() {
       
       if (response.ok) {
         const json = (await response.json()) as AuthResponse;
-        console.log(json);
 
         
         auth.setToken(json.accessToken);
@@ -41,7 +40,6 @@ function SignUp() {
         setErrorResponse(json.body.error);
       }
     } catch (error) {
-      console.log(error);
       setErrorResponse("Error de conexión. Inténtalo más tarde.");
     }
   }

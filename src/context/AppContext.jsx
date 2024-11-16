@@ -24,10 +24,8 @@ export function AppContextProvider(props) {
 
   async function fetchBooks() {
     try {
-      console.log(userType)
       if(userType == "WRITER"){
 
-        console.log("El id es:"+ userId+" Y el tipo es: "+ userType)
         const response = await fetch("http://localhost:8080/api/books/BooksByWriter" ,{
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,19 +51,36 @@ export function AppContextProvider(props) {
   // Función para agregar un libro al backend y al estado local
   async function createBook(book) {
     try {
-      const newBook = { ...book, writer: userId }; // Asignar el userId del escritor al libro
+      const formData = new FormData();
+      
+      const bookData = {
+        "title":book.title,"genre":book.genre,"publication":book.publication,"writer":userId,"price":book.price,"type":book.type
+
+      }
+
+      formData.append("book", JSON.stringify(bookData));
+      formData.append("content", book.content); // This assumes book.content is a file (e.g., PDF, image)
+     
+      
+
       const response = await fetch("http://localhost:8080/api/books/addBook", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newBook),
+        body: formData,
       });
 
-      if (!response.ok) throw new Error("Error al agregar el libro");
+      if (!response.ok){
+        const errorResponse = await response.text();
+        console.error("Error al agregar el libro:", errorResponse);
+        throw new Error("Error al agregar el libro");
+    
+
+      } 
       
       const addedBook = await response.json();
       setBooks((prevBooks) => [...prevBooks, addedBook]);
     } catch (error) {
       console.error("Error al agregar el libro:", error);
+      throw error
     }
   }
 
