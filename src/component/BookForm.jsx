@@ -10,6 +10,7 @@ function BookForm() {
     const  [publication, setPublication] = useState("")
     const [content, setContent] = useState(null)
     const [price, setPrice] = useState("")
+    const [format, setFormat] = useState("")
 
 
     const {createBook} = useContext(AppContext)
@@ -18,24 +19,49 @@ function BookForm() {
     const  handleSubmit = (e) => {
 
         e.preventDefault();
-        createBook({title, type, genre, publication, content, writer: userId, price })
+        createBook({title, type, genre, publication, content, writer: userId, price, format})
         setTitle('');
         setType('');
         setGenre('');
         setPublication('');
+        setPrice('')
         setContent(null);
       
     };
 
-    const hadleFileChange= (e) => {
+    const handleFileChange = (e) => {
       const file = e.target.files[0];
-      if(file && file.type === "application/pdf"){
-        setContent(file);
-      } else {
-        alert("Por favor, selecciona un archivo pdf");
-        e.target.value = null
+      if (file) {
+        switch (file.type) {
+          // Manejar archivo EPUB
+          case "application/epub+zip":
+            setContent(file);
+            setType("EBook")
+            setFormat("ebook")
+            break;
+          
+          // Manejar archivo PDF
+          case "application/pdf":
+            setContent(file);
+            setType("EBook")
+            setFormat("pdf")
+            break;
+
+          // Manejar archivo MP3  
+          case "audio/mpeg":
+            setContent(file);
+            setType("Audio Book")
+            setFormat("audiobook")
+            break;
+
+          default:
+            alert("Formato de archivo no soportado. Por favor, selecciona un archivo EPUB, PDF o MP3.");
+            e.target.value = null; // Restablecer el input
+            break;
+        }
       }
-    }
+    };
+    
 
     
 
@@ -90,8 +116,8 @@ function BookForm() {
     <label>Contenido</label>
     <input
       type="file"
-      accept=".pdf"
-      onChange={hadleFileChange}
+      accept=".pdf,.mp3,.epub"
+      onChange={handleFileChange}
     />
 
     <label>Precio</label>
@@ -103,9 +129,6 @@ function BookForm() {
         value={price}
         onChange={(e) => setPrice(e.target.value)}
     />
-
-    
-    
       
     <button>Guardar</button>
   </form>

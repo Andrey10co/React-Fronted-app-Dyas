@@ -24,9 +24,8 @@ function BookCardView({book}) {
         <h3>Title: {book.title}</h3>
         <h3>Author: {book.writer.name}</h3>
         <h3>Genre: {book.genre}</h3>
-        <h3>Content: {book.content}</h3>
         <h3>Type book: {book.type}</h3>
-        <h3>Precio: {book.precio}</h3>
+        <h3>Precio: {book.price}</h3>
         
         {userType === "WRITER" ? (
           <button onClick={() => deleteBook(book.id)}>Eliminar libro</button>
@@ -38,7 +37,7 @@ function BookCardView({book}) {
             {isViewing && (
                 <div className="modal">
                     <button onClick={() => setIsViewing(false)}>Cerrar</button>
-                    <ContentManager fileUrl={book.content} type={book.type} />
+                    <ContentManager fileUrl={book.content} type={book.format} />
                 </div>
             )}
     </div>

@@ -54,12 +54,11 @@ export function AppContextProvider(props) {
       const formData = new FormData();
       
       const bookData = {
-        "title":book.title,"genre":book.genre,"publication":book.publication,"writer":userId,"price":book.price,"type":book.type
-
+        "title":book.title,"genre":book.genre,"publication":book.publication,"writer":userId,"price":book.price,"type":book.type,"format":book.format
       }
 
       formData.append("book", JSON.stringify(bookData));
-      formData.append("content", book.content); // This assumes book.content is a file (e.g., PDF, image)
+      formData.append("content", book.content);
      
       
 
