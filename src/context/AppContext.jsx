@@ -5,7 +5,8 @@ export const AppContext = createContext();
 
 export function AppContextProvider(props) {
   const [books, setBooks] = useState([]);
-  const [genres, setGenres] = useState([]); // Lista de géneros disponibles
+  const [purchasedBooks, setPurchasedBooks] = useState([]);
+  const [genres, setGenres] = useState([]); 
   const { userId, userType, token } = useAuth(); 
 
   
@@ -22,6 +23,7 @@ export function AppContextProvider(props) {
     }
   }
 
+  //arma la lista de libros disponibles si es lector o la de lista de libros publicadps si es escritor
   async function fetchBooks() {
     try {
       if(userType == "WRITER"){
@@ -32,21 +34,38 @@ export function AppContextProvider(props) {
           },
         });
 
-        if (!response.ok) throw new Error("Error al obtener los libros");
+        if (!response.ok) throw new Error("Error al obtener los libros del Autor");
         const booksList = await response.json();
         setBooks(booksList);
       }
       else{
+
         const response = await fetch("http://localhost:8080/api/books/allBooks");
-        if (!response.ok) throw new Error("Error al obtener los libros");
+        if (!response.ok) throw new Error("Error al obtener los libros disponibles");
         const booksList = await response.json();
         setBooks(booksList);
+
+        
+        const response2 = await fetch("http://localhost:8080/api/users/purchased-books" ,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response2.ok) throw new Error("Error al obtener los libros del Autor");
+        const purchasedBooksList = await response2.json();
+        setPurchasedBooks(purchasedBooksList);
+        console.log(purchasedBooksList)
+        
+
       }
       
     } catch (error) {
       console.error("Error al obtener los libros:", error);
     }
   }
+
+
 
   // Función para agregar un libro al backend y al estado local
   async function createBook(book) {
@@ -108,7 +127,8 @@ export function AppContextProvider(props) {
     <AppContext.Provider
       value={{
         books:  books,
-        genres, // Para mostrar los géneros y
+        genres,
+        purchasedBooks: purchasedBooks,
         createBook,
         deleteBook,
         fetchBooks,
