@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {useContext} from 'react'
-import {AppContext} from '../context/AppContext'
+import {AppContext} from '../context/appContext'
 import { useAuth } from '../auth/AuthProvider';
+import ContentManager from './ContentManager';
 
 function BookCardView({book}) {
-
   const {deleteBook} =  useContext(AppContext)
-  
   const { userType } = useAuth();
+  const [isViewing,setIsViewing]= useState(false)
   function addFavoritos() {
     alert('añadiendo a favoritos')
     //const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
     //const [favoritos, setFavoritos] = React.useState([]);
   }
+
+  const handleViewContent = () => {
+    setIsViewing(true);
+  };
 
   
   return (
@@ -29,6 +33,14 @@ function BookCardView({book}) {
         ) : (
           <button onClick={() => BuyBook(book.id)}>Comprar libro</button>
         )}
+        <button onClick={handleViewContent}>Ver contenido</button>
+            {/* Visualización del contenido */}
+            {isViewing && (
+                <div className="modal">
+                    <button onClick={() => setIsViewing(false)}>Cerrar</button>
+                    <ContentManager fileUrl={book.content} type={book.type} />
+                </div>
+            )}
     </div>
   )
   

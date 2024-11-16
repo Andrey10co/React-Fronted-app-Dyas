@@ -1,5 +1,5 @@
 import { useState, useContext } from "react"
-import {AppContext} from '../context/AppContext'
+import {AppContext} from '../context/appContext'
 import { useAuth } from '../auth/AuthProvider';
 import "../styles/formContent.css"
 
