@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {useContext} from 'react'
 import {AppContext} from '../context/appContext'
 import { useAuth } from '../auth/AuthProvider';
-import ContentManager from './ContentManager';
+import DisplayContent from './DisplayContent';
 
 function BookCardView({book}) {
   const {deleteBook} =  useContext(AppContext)
@@ -37,7 +37,7 @@ function BookCardView({book}) {
             {isViewing && (
                 <div className="modal">
                     <button onClick={() => setIsViewing(false)}>Cerrar</button>
-                    <ContentManager fileUrl={book.content} type={book.format} />
+                    <DisplayContent fileUrl={book.content} type={book.format} />
                 </div>
             )}
     </div>

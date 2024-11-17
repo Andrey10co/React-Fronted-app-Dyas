@@ -19,6 +19,10 @@ function BookForm() {
     const  handleSubmit = (e) => {
 
         e.preventDefault();
+        if (!content || !type || !format) {
+          alert("Por favor, carga un archivo válido para continuar.");
+          return;
+        }
         createBook({title, type, genre, publication, content, writer: userId, price, format})
         setTitle('');
         setType('');
@@ -76,11 +80,6 @@ function BookForm() {
       value={title}
     />
 
-    <label>Tipo</label>
-    <select onChange={(e) => setType(e.target.value)} value={type}>
-      <option value="Ebook">EBook</option>
-      <option value="Audio">Audio</option>
-    </select>
 
     <label>Género</label>
     <select onChange={(e) => setGenre(e.target.value)} value={genre}>
