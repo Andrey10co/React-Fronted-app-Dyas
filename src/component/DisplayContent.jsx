@@ -32,7 +32,7 @@ const DisplayContent = ({ fileUrl, type }) => {
                         <body style="margin:0; text-align:center;">
                             <h3>Visualizando eBook</h3>
                             <iframe 
-                                src="${fileUrl}" 
+                                src="http://localhost:8080/uploads/${fileUrl}" 
                                 style="width:80%; height:80%; border:none;" 
                                 frameborder="0"></iframe>
                         </body>
@@ -45,7 +45,7 @@ const DisplayContent = ({ fileUrl, type }) => {
                         <body style="margin:0; text-align:center;">
                             <h3>Reproduciendo Audiobook</h3>
                             <audio controls autoplay style="margin-top:20px;">
-                                <source src="${fileUrl}" type="audio/mpeg" />
+                                <source src="http://localhost:8080/uploads/${fileUrl}" type="audio/mpeg" />
                                 Tu navegador no soporta la reproducción de audio.
                             </audio>
                         </body>
