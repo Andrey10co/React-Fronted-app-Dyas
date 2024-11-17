@@ -39,7 +39,7 @@ function BookCardView({book}) {
             {isViewing && (
               <div className="modal">
                 <button onClick={() => setIsViewing(false)}>Cerrar</button>
-                <ContentManager fileUrl={book.content} type={book.format} />
+                <DisplayContent fileUrl={book.content} type={book.format} />
               </div>
             )}
           </div>
