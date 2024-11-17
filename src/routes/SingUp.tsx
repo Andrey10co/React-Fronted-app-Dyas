@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
 import DefaultLayout from "./DefaultLayout";
 import { AuthResponse, AuthResponseError } from "../types/types";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 
 function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('');
+  const [tipo] = useState('');
+  const { setUserId, userType, setUserType } = useAuth();
   const [errorResponse, setErrorResponse] = useState<string | null>(null);
 
+  const navigate = useNavigate();
   const auth = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -29,11 +32,16 @@ function SignUp() {
       
       if (response.ok) {
         const json = (await response.json()) as AuthResponse;
-
-        
-        auth.setToken(json.accessToken);
+         // Redirige según el tipo de usuario j
+      
+        sessionStorage.setItem('accessToken',json.accessToken );
+        setUserId(json.userId);
         auth.setIsAuthenticated(true);
-        auth.setUserType(userType); 
+
+      
+        console.log(userType);
+        navigate(auth.userType === 'WRITER' ? "/writer" : "/reader");
+        
         
       } else {
         const json = (await response.json()) as AuthResponseError;
@@ -44,10 +52,7 @@ function SignUp() {
     }
   }
 
-  // Redirige según el tipo de usuario j
-  if (auth.isAuthenticated) {
-    return <Navigate to={auth.userType === 'WRITER' ? "/writer" : "/reader"} />;
-  }
+ 
 
   return (
     <DefaultLayout>
@@ -108,12 +113,12 @@ function SignUp() {
               <select
                 id="user-type"
                 className="border border-gray-300 px-3 py-2 rounded-md w-full"
-                value={userType}
+                value={tipo}
                 onChange={(e) => setUserType(e.target.value)}
               >
                 <option value="">Select user type</option>
-                <option value="writer">Writer</option>
-                <option value="reader">Reader</option>
+                <option value="WRITER">Writer</option>
+                <option value="READER">Reader</option>
               </select>
             </div>
 

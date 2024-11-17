@@ -7,7 +7,8 @@ export function AppContextProvider(props) {
   const [books, setBooks] = useState([]);
   const [purchasedBooks, setPurchasedBooks] = useState([]);
   const [genres, setGenres] = useState([]); 
-  const { userId, userType, token } = useAuth(); 
+  const { userId, userType, isTokenExpired } = useAuth(); 
+  const token = sessionStorage.getItem('accessToken');
 
   
   
@@ -26,7 +27,7 @@ export function AppContextProvider(props) {
   //arma la lista de libros disponibles si es lector o la de lista de libros publicadps si es escritor
   async function fetchBooks() {
     try {
-      if(userType == "WRITER"){
+      if(userType == "WRITER" && !isTokenExpired(token)){
 
         const response = await fetch("http://localhost:8080/api/books/BooksByWriter" ,{
           headers: {
@@ -39,23 +40,29 @@ export function AppContextProvider(props) {
         setBooks(booksList);
       }
       else{
+        if (!isTokenExpired(token)){
 
-        const response = await fetch("http://localhost:8080/api/books/allBooks");
-        if (!response.ok) throw new Error("Error al obtener los libros disponibles");
-        const booksList = await response.json();
-        setBooks(booksList);
+          const response = await fetch("http://localhost:8080/api/books/allBooks");
+          if (!response.ok) throw new Error("Error al obtener los libros disponibles");
+          const booksList = await response.json();
+          setBooks(booksList);
 
+          
+          const response2 = await fetch("http://localhost:8080/api/users/purchased-books" ,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response2.ok) throw new Error("Error al obtener los libros del Autor");
+          const purchasedBooksList = await response2.json();
+          setPurchasedBooks(purchasedBooksList);
+          console.log(purchasedBooksList)
+
+        } else {
+          window.location.href = '/login';
+        }
         
-        const response2 = await fetch("http://localhost:8080/api/users/purchased-books" ,{
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response2.ok) throw new Error("Error al obtener los libros del Autor");
-        const purchasedBooksList = await response2.json();
-        setPurchasedBooks(purchasedBooksList);
-        console.log(purchasedBooksList)
         
 
       }
@@ -79,23 +86,27 @@ export function AppContextProvider(props) {
       formData.append("book", JSON.stringify(bookData));
       formData.append("content", book.content);
      
+      if (!isTokenExpired(token)){
+            
+        const response = await fetch("http://localhost:8080/api/books/addBook", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok){
+          const errorResponse = await response.text();
+          console.error("Error al agregar el libro:", errorResponse);
+          throw new Error("Error al agregar el libro");
       
 
-      const response = await fetch("http://localhost:8080/api/books/addBook", {
-        method: "POST",
-        body: formData,
-      });
+        } 
+        
+        const addedBook = await response.json();
+        setBooks((prevBooks) => [...prevBooks, addedBook]);        
+      } else {
+        window.location.href = '/login';
+      }
 
-      if (!response.ok){
-        const errorResponse = await response.text();
-        console.error("Error al agregar el libro:", errorResponse);
-        throw new Error("Error al agregar el libro");
-    
-
-      } 
-      
-      const addedBook = await response.json();
-      setBooks((prevBooks) => [...prevBooks, addedBook]);
     } catch (error) {
       console.error("Error al agregar el libro:", error);
       throw error
@@ -104,13 +115,20 @@ export function AppContextProvider(props) {
 
   async function deleteBook(bookId) {
     try {
-      const response = await fetch(`http://localhost:8080/api/books/DeleteBook?id=${bookId}`, {
-        method: "DELETE",
-      });
+      if (!isTokenExpired(token)){
+        const response = await fetch(`http://localhost:8080/api/books/DeleteBook?id=${bookId}`, {
+          method: "DELETE",
+        });
+        
+        if (!response.ok) throw new Error("Error al eliminar el libro");
+        
+        setBooks((prevBooks) => prevBooks.filter((book) => book.bookId !== bookId));
+
+      } else{
+        window.location.href = '/login';
+      }
       
-      if (!response.ok) throw new Error("Error al eliminar el libro");
-      
-      setBooks((prevBooks) => prevBooks.filter((book) => book.bookId !== bookId));
+    
     } catch (error) {
       console.error("Error al eliminar el libro:", error);
     }
@@ -118,11 +136,16 @@ export function AppContextProvider(props) {
 
   async function purchase(idUsuario,bookId) {
     try {
-      const response = await fetch(`http://localhost:8080/purchases/new?userId=${idUsuario}&bookId=${bookId}`, {
+      if (!isTokenExpired(token)){
+        const response = await fetch(`http://localhost:8080/purchases/new?userId=${idUsuario}&bookId=${bookId}`, {
           method: "POST",
           });
           if (!response.ok) throw new Error("Error al realizar compra");
-      fetchBooks();
+          fetchBooks();
+      } else{
+        window.location.href = '/login';
+      }
+      
     } catch (error){
       console.error("No se registró el pago :(")
     }

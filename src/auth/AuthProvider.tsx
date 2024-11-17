@@ -5,27 +5,44 @@ interface AuthProviderProps {
 }
 
 interface AuthContextType {
+  isTokenExpired(token): boolean;
   isAuthenticated: boolean;
   userId: string | null;
   userType: string | null;
-  token: string | null;
   setUserId: React.Dispatch<React.SetStateAction<string | null>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   setUserType: React.Dispatch<React.SetStateAction<string | null>>;
-  setToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+function isTokenExpired(token: string | null): boolean {
+  if (!token) return true;
+  
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(window.atob(base64));
+    
+    const currentTime = Date.now() / 1000;
+    if (payload.exp < currentTime) {
+      return true;
+    }
+    return false
+  } catch (error) {
+    return true;
+  }
+}
+
 function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userType, setUserType] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null); 
+  const token = sessionStorage.getItem('accessToken');
 
   useEffect(() => {
     async function fetchUserId() {
-      if (token) {
+      if (token && !isTokenExpired(token)) {
         try {
           const response = await fetch('http://localhost:8080/api/users/profile', {
             headers: {
@@ -50,7 +67,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, userId,setIsAuthenticated, userType, setUserType, token, setToken, setUserId }}
+      value={{ isAuthenticated, userId,setIsAuthenticated, userType, setUserType,  setUserId, isTokenExpired }}
     >
       {children}
     </AuthContext.Provider>
