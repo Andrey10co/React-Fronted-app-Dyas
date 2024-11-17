@@ -1,0 +1,43 @@
+
+
+.catalog {
+    padding: 20px;
+  }
+  
+  .catalog h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e3a8a; /* Azul fuerte */
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #93c5fd; /* Azul claro */
+    display: inline-block;
+  }
+  
+  .genre-section {
+    margin-bottom: 30px;
+  }
+  
+  .genre-section h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2563eb; /* Azul mediano */
+    margin-bottom: 15px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .purchased-books {
+    margin-bottom: 40px;
+  }
+  
+  .purchased-books h2 {
+    color: #16a34a; /* Verde */
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  

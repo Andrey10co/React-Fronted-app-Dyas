@@ -7,6 +7,7 @@ import { useAuth } from '../auth/AuthProvider';
 import DisplayContent from './DisplayContent';
 
 import { PayPalButtons } from "@paypal/react-paypal-js";
+import "../styles/bookCardView.css"
 
 function BookCardView({book}) {
   const {deleteBook, purchasedBooks, purchase} =  useContext(AppContext)
@@ -88,10 +89,7 @@ function BookCardView({book}) {
             )}
     </div>
   )}
-        
-        
-
-        
+  
     </div>
   )
   

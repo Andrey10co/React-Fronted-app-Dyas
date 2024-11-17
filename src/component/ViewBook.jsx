@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { useAuth } from "../auth/AuthProvider"; // Asegúrate de tener acceso al AuthContext
 import BookCardView from "./BookCard";
+import "../styles/viewBook.css"
 
 function ViewBooks() {
   const { books, genres, purchasedBooks } = useContext(AppContext);
