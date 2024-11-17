@@ -9,6 +9,11 @@ import WriterView from './routes/WriterView.jsx';
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
 import ReaderView from './routes/ReaderView.jsx';
 import AuthProvider from './auth/AuthProvider.tsx';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
+const initialOptions = {
+  clientId: "AVFm0EIV2vwh3AbkUN1H9EBcsLulSMTOcI4V8vkfDPOZ7izPNfB_jfo25o0p9uXey8T7rm4SuNM9iSU2",
+};
 
 // Configuración del enrutador
 const router = createBrowserRouter([
@@ -31,8 +36,10 @@ const router = createBrowserRouter([
 // Renderizado de la aplicación
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <PayPalScriptProvider options={initialOptions}>
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
+    </PayPalScriptProvider>
   </StrictMode>
 );

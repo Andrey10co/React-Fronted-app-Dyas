@@ -1,6 +1,7 @@
 export interface AuthResponse {
     
     accessToken: string;
+    userId:string
     
   }
   export interface AuthResponseError {
