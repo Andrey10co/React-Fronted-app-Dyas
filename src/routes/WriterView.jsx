@@ -3,6 +3,7 @@ import { AppContext } from '../context/AppContext';
 import { useAuth } from '../auth/AuthProvider';
 import BookForm from '../component/BookForm';
 import ViewBooks from '../component/ViewBook';
+import UserLayout from './UserLayout';
 
 function WriterView() {
   // Obtener el contexto de autenticación (si es necesario)
@@ -15,6 +16,7 @@ function WriterView() {
 
   return (
     <div>
+      <UserLayout/>
       <BookForm /> 
       <ViewBooks /> 
     </div>
