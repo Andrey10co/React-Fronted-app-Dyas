@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errorResponse, setErrorResponse] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated, userType, setUserType, setToken, userId } = useAuth();
+  const { isAuthenticated, setIsAuthenticated, userType, setUserType, setToken, userId, setUserId } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,6 +31,7 @@ const Login = () => {
         if (json.body.accessToken ) {
           setToken(json.body.accessToken);
           setUserType(json.body.userType);
+          setUserId(json.body.userId);
           setIsAuthenticated(true);
         }
       } else {

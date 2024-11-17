@@ -116,6 +116,18 @@ export function AppContextProvider(props) {
     }
   }
 
+  async function purchase(idUsuario,bookId) {
+    try {
+      const response = await fetch(`http://localhost:8080/purchases/new?userId=${idUsuario}&bookId=${bookId}`, {
+          method: "POST",
+          });
+          if (!response.ok) throw new Error("Error al realizar compra");
+      fetchBooks();
+    } catch (error){
+      console.error("No se registró el pago :(")
+    }
+  }
+
   // Cargar libros y géneros al iniciar el contexto
   useEffect(() => {
     fetchGenres();
@@ -132,6 +144,7 @@ export function AppContextProvider(props) {
         createBook,
         deleteBook,
         fetchBooks,
+        purchase
       }}
     >
       {props.children}

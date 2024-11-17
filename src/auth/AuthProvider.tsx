@@ -9,6 +9,7 @@ interface AuthContextType {
   userId: string | null;
   userType: string | null;
   token: string | null;
+  setUserId: React.Dispatch<React.SetStateAction<string | null>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   setUserType: React.Dispatch<React.SetStateAction<string | null>>;
   setToken: React.Dispatch<React.SetStateAction<string | null>>;
@@ -49,7 +50,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, userId,setIsAuthenticated, userType, setUserType, token, setToken }}
+      value={{ isAuthenticated, userId,setIsAuthenticated, userType, setUserType, token, setToken, setUserId }}
     >
       {children}
     </AuthContext.Provider>

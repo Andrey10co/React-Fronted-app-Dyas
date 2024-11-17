@@ -1,13 +1,17 @@
+
 import React, { useState } from 'react'
 import {useContext} from 'react'
 import {AppContext} from '../context/AppContext'
 import { useAuth } from '../auth/AuthProvider';
 import ContentManager from './ContentManager';
+import { PayPalButtons } from "@paypal/react-paypal-js";
+
 
 function BookCardView({book}) {
-  const {deleteBook, purchasedBooks} =  useContext(AppContext)
-  const { userType } = useAuth();
+  const {deleteBook, purchasedBooks, purchase} =  useContext(AppContext)
+  const { userType, userId } = useAuth();
   const [isViewing,setIsViewing]= useState(false)
+
   
 
 
@@ -54,8 +58,32 @@ function BookCardView({book}) {
                 )}
               </>
             ) : (
-              // Botón para comprar si no está en purchasedBooks
-              <button onClick={() => BuyBook(book.id)}>Comprar libro</button>
+              <div>
+                {/* Removido PayPalScriptProvider, solo usa PayPalButtons */}
+                <PayPalButtons
+                  fundingSource="paypal"
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [{
+                        amount: {
+                          value: book.price,
+                        },
+                      }],
+                    });
+                  }}
+                  onApprove={async (data, actions) => {
+                    try {
+                      const details = await actions.order.capture();
+                      await purchase(userId, book.bookId);
+                      console.log("Payment successful!", details);
+                      return details;
+                    } catch (err) {
+                      console.error("Payment failed:", err);
+                      throw err;
+                    }
+                  }}
+                />
+              </div>
             )}
     </div>
   )}
