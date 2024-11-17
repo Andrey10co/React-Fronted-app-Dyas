@@ -1,6 +1,4 @@
-import BookViewer from "./BookViewer";
-import EbookViewer from "./EbookViewer";
-import AudioPlayer from "./AudioPlayer";
+
 
 
 const DisplayContent = ({ fileUrl, type }) => {
@@ -14,12 +12,14 @@ const DisplayContent = ({ fileUrl, type }) => {
 
     const handleContentDisplay = () => {
         switch (type) {
+            
             case 'pdf':
+                
                 openInNewWindow(`
                     <html>
                         <body style="margin:0">
                             <iframe 
-                                src="${fileUrl}" 
+                                src="http://localhost:8080/uploads/${fileUrl}" 
                                 style="width:100%; height:100%; border:none;" 
                                 frameborder="0"></iframe>
                         </body>
