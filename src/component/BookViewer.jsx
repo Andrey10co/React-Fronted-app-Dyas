@@ -3,6 +3,7 @@ import { Worker } from '@react-pdf-viewer/core';
 import { Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 
+//Esta clase se puede eliminar, no se usa
 const BookViewer = ({ pdfUrl }) => {
     const [fileUrl, setFileUrl] = useState(null);
 
