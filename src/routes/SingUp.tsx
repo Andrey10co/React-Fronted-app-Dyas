@@ -9,7 +9,7 @@ function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [tipo] = useState('');
+  const [tipo, setTipo] = useState('');
   const { setUserId, userType, setUserType } = useAuth();
   const [errorResponse, setErrorResponse] = useState<string | null>(null);
 
@@ -114,7 +114,10 @@ function SignUp() {
                 id="user-type"
                 className="border border-gray-300 px-3 py-2 rounded-md w-full"
                 value={tipo}
-                onChange={(e) => setUserType(e.target.value)}
+                onChange={(e) => {
+                  setTipo(e.target.value);
+                  setUserType(e.target.value);
+                }}
               >
                 <option value="">Select user type</option>
                 <option value="WRITER">Writer</option>

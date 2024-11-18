@@ -1,3 +1,7 @@
+// Juan Miguel Dimaté 0000282752 
+// Andrey Esteban Conejo 0000281295 
+// Carlos Bello 0000272648 
+
 import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { useAuth } from "../auth/AuthProvider"; // Asegúrate de tener acceso al AuthContext
@@ -47,7 +51,7 @@ function ViewBooks() {
                     <BookCardView key={book.bookId} book={book} />
                   ))
                 ) : (
-                  <div>You haven't created any books yet.</div>
+                  <div>You don't have any book yet.</div>
                 )
               }
 

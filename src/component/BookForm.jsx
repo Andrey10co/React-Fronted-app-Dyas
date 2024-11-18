@@ -1,3 +1,6 @@
+// Juan Miguel Dimaté 0000282752 
+// Andrey Esteban Conejo 0000281295 
+// Carlos Bello 0000272648 
 import { useState, useContext } from "react"
 import {AppContext} from '../context/AppContext'
 import { useAuth } from '../auth/AuthProvider';
